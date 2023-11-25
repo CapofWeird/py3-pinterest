@@ -16,6 +16,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.proxy import Proxy, ProxyType
+from selenium.webdriver.chrome.service import Service
 
 AGENT_STRING = (
     "Mozilla/5.0 (Windows NT 6.1; Win64; x64) "
@@ -196,7 +197,7 @@ class Pinterest:
             http_proxy.add_to_capabilities(chrome_options)
 
         driver = webdriver.Chrome(
-            ChromeDriverManager().install(), options=chrome_options
+                service=Service(executable_path=ChromeDriverManager().install()), options=chrome_options
         )
         driver.get("https://pinterest.com/login")
 
@@ -622,7 +623,7 @@ class Pinterest:
         return self.post(url=PIN_RESOURCE_CREATE, data=data)
 
     def upload_pin(
-        self, board_id, image_file, description="", link="", title="", section_id=None
+        self, board_id, image_file, description="", link="", title="", alt_text = "", section_id=None
     ):
         """
         This method is similar to 'pin' except the image for the pin is a local file.
@@ -634,6 +635,7 @@ class Pinterest:
             image_url=image_url,
             link=link,
             title=title,
+            alt_text=alt_text,
             section_id=section_id,
         )
 
